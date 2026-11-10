@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f5f6f2" />
+    <title>Python Daily · A daily Python practice habit</title>
+    <meta name="description" content="Python Daily is a calm, 10-minute daily Python practice: predict-the-output questions, coding challenges you run in the browser, and a 50-problem ladder. Free, no sign-up." />
+
+    <!-- Replace YOUR-SITE.netlify.app with your real Netlify URL (or custom domain).
+         Open Graph needs absolute URLs, so the og:image path must include the domain too. -->
+    <link rel="canonical" href="https://python-daily.netlify.app/" />
+
+    <!-- Favicon: SVG for modern browsers. -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Discord, Slack previews) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Python Daily" />
+    <meta property="og:title" content="Python Daily · A daily Python practice habit" />
+    <meta property="og:description" content="Ten minutes of Python a day. Predict the output, write the code, watch your skills grow." />
+    <meta property="og:url" content="https://python-daily.netlify.app/" />
+    <meta property="og:image" content="https://python-daily.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Python Daily: small steps, real progress. A green card with a Python snippet and its output." />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Python Daily · A daily Python practice habit" />
+    <meta name="twitter:description" content="Ten minutes of Python a day. Predict the output, write the code, watch your skills grow." />
+    <meta name="twitter:image" content="https://python-daily.netlify.app/og-image.png" />
+    <!-- Apply the saved theme before any CSS paints, so dark mode never flashes light. -->
+    <script>
+      try {
+        var t = (JSON.parse(localStorage.getItem("python-daily-prefs") || "{}") || {}).theme;
+        if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
+    <!-- Fonts: preconnect + stylesheet link (an @import inside style.css delayed first paint) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" />
+    <!-- Python runtime, charts and confetti come from jsDelivr; highlight.js from cdnjs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="polish.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Skip to content</a>
+    <aside>
+      <a class="brand" href="#today">
+        <span class="logo">py<span>↗</span></span>Python Daily
+      </a>
+      <div class="side-label">YOUR WORKSPACE</div>
+      <nav aria-label="Main">
+        <a href="#today" data-nav="today"><i data-ic="calendar-check"></i><span>Today’s practice</span></a>
+        <a href="#ladder" data-nav="ladder"><i data-ic="trending-up"></i><span>50-Code Ladder</span></a>
+        <a href="#concepts" data-nav="concepts"><i data-ic="book-open"></i><span>Concepts &amp; Handbook</span></a>
+        <a href="#progress" data-nav="progress"><i data-ic="chart-column"></i><span>Profile &amp; Analytics</span></a>
+        <a href="#path" data-nav="path"><i data-ic="route"></i><span>Learning path</span></a>
+      </nav>
+      <div class="side-bottom">
+        <div class="small-card">
+          <span class="green-dot"></span> A little better, every day.
+          <p>Build the habit. Build the skill.</p>
+        </div>
+        <a class="profile" href="#progress" title="Your profile and analytics">
+          <span class="avatar" id="profile-avatar">?</span>
+          <div class="profile-txt">
+            <span id="profile-name">Your profile</span>
+            <span class="xp-mini" role="img" aria-label="Level">
+              <b id="xp-level">Lv 1</b><span class="xp-bar"><i id="xp-fill"></i></span>
+            </span>
+            <small id="xp-text">Profile &amp; performance</small>
+          </div>
+        </a>
+      </div>
+    </aside>
+    <main>
+      <header>
+        <!-- Desktop: breadcrumb. Phones (<768px): compact header with logo + page title. -->
+        <span id="breadcrumb">Workspace / Today’s practice</span>
+        <a class="m-brand" href="#today" aria-label="Python Daily home"><span class="logo">py<span>↗</span></span><span id="m-title">Today’s practice</span></a>
+        <div class="header-tools">
+          <span id="py-chip" class="py-chip idle" title="In-browser Python status"></span>
+          <a href="#progress" id="m-xp" class="m-xp" aria-label="Your level">Lv 1</a>
+          <button id="open-sync-btn" class="sync-pill-btn" title="Sync progress across devices or browsers"><i data-ic="refresh"></i><span class="btn-label"> Sync &amp; Backup</span></button>
+          <button class="icon-btn" data-theme-cycle aria-label="Theme"></button>
+          <button id="open-settings" class="icon-btn" title="Settings" aria-label="Settings"><i data-ic="settings"></i></button>
+          <span id="date"></span>
+        </div>
+      </header>
+      <div id="app"></div>
+      <footer>
+        <span>Made for steady progress.</span>
+        <span>
+          Saved on this browser ·
+          <button id="export"><i data-ic="download"></i> Export progress</button>
+        </span>
+      </footer>
+    </main>
+
+    <!-- Phones: fixed bottom tab bar (shown below 768px by CSS) -->
+    <nav class="tabbar" aria-label="Main">
+      <a href="#today" data-tab="today"><i data-ic="calendar-check"></i><span>Today</span></a>
+      <a href="#ladder" data-tab="ladder"><i data-ic="trending-up"></i><span>Ladder</span></a>
+      <a href="#concepts" data-tab="concepts"><i data-ic="book-open"></i><span>Learn</span></a>
+      <a href="#progress" data-tab="progress"><i data-ic="chart-column"></i><span>Profile</span></a>
+      <a href="#path" data-tab="path"><i data-ic="route"></i><span>Path</span></a>
+    </nav>
+
+    <div id="sync-modal-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="sync-title">
+        <div class="modal-head">
+          <div>
+            <div class="eyebrow">BACKUP &amp; SYNC</div>
+            <h2 id="sync-title" style="margin:4px 0 0">Sync your progress</h2>
+          </div>
+          <button class="modal-close-btn" id="sync-modal-close" aria-label="Close"><i data-ic="x"></i></button>
+        </div>
+        <div class="modal-body">
+          <p class="muted" style="margin-top:0">Your progress lives in this browser. Move it to another device or keep a backup.</p>
+
+          <div class="sync-option-card">
+            <strong><i data-ic="zap"></i> Sync link</strong>
+            <p class="muted">Open this link on your phone or another browser to restore everything there.</p>
+            <div class="action-group">
+              <button class="primary" id="btn-copy-sync-link"><i data-ic="clipboard"></i> Copy sync link</button>
+              <span id="sync-link-copied" class="status-pill good" style="display:none"><i data-ic="check"></i> Copied</span>
+            </div>
+          </div>
+
+          <div class="sync-option-card">
+            <strong><i data-ic="save"></i> Backup file</strong>
+            <p class="muted">Download a JSON backup, or restore from one.</p>
+            <div class="action-group" style="margin-bottom:12px">
+              <button class="secondary" id="btn-download-json"><i data-ic="download"></i> Download JSON</button>
+              <button class="secondary" id="btn-copy-raw-json"><i data-ic="clipboard"></i> Copy JSON</button>
+            </div>
+            <label for="sync-import-textarea" class="muted" style="display:block;margin-bottom:6px">Or paste a backup here to restore:</label>
+            <textarea id="sync-import-textarea" class="sync-textarea" placeholder="Paste your progress JSON here..."></textarea>
+            <div class="action-group" style="margin-top:10px">
+              <button class="primary" id="btn-perform-import"><i data-ic="upload"></i> Restore progress</button>
+              <input type="file" id="sync-file-input" accept=".json" style="display:none" />
+              <button class="secondary" id="btn-trigger-file-upload">Upload .json file</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="settings-overlay" class="modal-overlay" style="display:none">
+      <div class="modal-dialog settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <div class="modal-head">
+          <div>
+            <div class="eyebrow">PREFERENCES</div>
+            <h2 id="settings-title" style="margin:4px 0 0">Settings</h2>
+          </div>
+          <button class="modal-close-btn" id="settings-close" aria-label="Close"><i data-ic="x"></i></button>
+        </div>
+        <div class="modal-body" id="settings-body"></div>
+      </div>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="icons.js"></script>
+    <script>
+      // Swap <i data-ic="name"> placeholders in this static HTML for inline SVG icons.
+      document.querySelectorAll("i[data-ic]").forEach((el) => (el.outerHTML = ic(el.dataset.ic)));
+    </script>
+    <script src="enhance.js"></script>
+    <script src="handbook.js"></script>
+    <script src="questions.js"></script>
+    <script src="concepts.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
